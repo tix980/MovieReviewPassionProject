@@ -22,4 +22,15 @@ namespace MovieReviewPassionProject.Models
         //one movies can have many actors
         public ICollection<Actor> Actors { get; set; }
     }
+    
+    public class MovieDto
+    {
+        public int MovieID { get; set; }
+        public string MovieName { get; set; }
+        public string MovieGenre { get; set; }
+        public DateTime Year { get; set; }
+        public string MovieInfo { get; set; }
+        public string MovieImg { get; set; }
+
+    }
 }

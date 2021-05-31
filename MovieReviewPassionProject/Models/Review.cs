@@ -21,4 +21,14 @@ namespace MovieReviewPassionProject.Models
         public int MovieID { get; set; }
         public virtual Movie Movie { get; set; }
     }
+
+    public class ReviewDto
+    {
+        public string MovieName { get; set; }
+        public int ReviewID { get; set; }
+        public string AuthorName { get; set; }
+        public string StarRatings { get; set; }
+        public string ReviewDetail { get; set; }
+        public DateTime ReviewDate { get; set; }
+    }
 }
