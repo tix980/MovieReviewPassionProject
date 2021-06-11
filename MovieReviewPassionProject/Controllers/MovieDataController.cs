@@ -15,7 +15,12 @@ namespace MovieReviewPassionProject.Models
     {
         private ApplicationDbContext db = new ApplicationDbContext();
 
-        // GET: api/MovieData/ListMovies
+        ///Objective: Create a method that allow us to return all movies from the database
+        /// <summary>
+        /// return all movies from the database
+        /// </summary>
+        /// <returns>List of movies in the database</returns>
+        /// <example>GET: api/MovieData/ListMovies</example>
         [HttpGet]
         public List<MovieDto> ListMovies()
         {
@@ -31,7 +36,99 @@ namespace MovieReviewPassionProject.Models
             return MovieDtos;
         }
 
-        // GET: api/MovieData/FindMovie/{id}
+        ///Objective: Create a method that allow us to return all movies that are related to the selected actor
+        ///by entering a interger value of the selected actor id
+        /// <summary>
+        /// Return all movies that are related to the selected actor from the database
+        /// </summary>
+        /// <param name="id">ActorId</param>
+        /// <returns>List of movies that are related to the selected actor</returns>
+        ///<example>GET: api/MovieData/ListMoviesForActor</example>
+        [HttpGet]
+        public List<MovieDto> ListMoviesForActor(int id)
+        {
+            List<Movie> Movies = db.Movies.Where(m=>m.Actors.Any(
+                a=>a.ActorId == id)).ToList();
+            List<MovieDto> MovieDtos = new List<MovieDto>();
+            Movies.ForEach(m => MovieDtos.Add(new MovieDto()
+            {
+                MovieID = m.MovieID,
+                MovieImg = m.MovieImg,
+                MovieName = m.MovieName,
+                MovieGenre = m.MovieGenre,
+                MovieInfo = m.MovieInfo
+            }));
+            return MovieDtos;
+        }
+
+        ///Objective: Create a method that allow us to associate the selected movie with the selected actor by entering interger value of their id
+        /// <summary>
+        /// Connect a movie id with a actor id
+        /// </summary>
+        /// <param name="movieid">The MovieID primary key</param>
+        /// <param name="actorid">The actorID primary key</param>
+        ///<return>
+        /// HEADER: 200 (OK)
+        /// or
+        /// HEADER: 404 (NOT FOUND)
+        /// </return>
+        /// <example>POST : api/moviedata/AssociateMovieWithActor/{movieid}/{actorid}</example>
+        [HttpPost]
+        [Route("api/moviedata/AssociateMovieWithActor/{movieid}/{actorid}")]
+        public IHttpActionResult AssociateMovieWithActor(int movieid, int actorid)
+        {
+            Movie SelectedMovie = db.Movies.Include(m => m.Actors).Where(m=>m.MovieID == movieid).FirstOrDefault();
+            Actor SelectedActor = db.Actors.Find(actorid);
+
+            if(SelectedMovie == null || SelectedActor == null)
+            {
+                return NotFound();
+            }
+
+            SelectedMovie.Actors.Add(SelectedActor);
+            db.SaveChanges();
+
+            return Ok();
+        }
+
+        ///Objective: Create a method that allow us to separate the selected movie with the selected actor by entering interger value of their id
+        /// <summary>
+        /// separate a movie id with a actor id
+        /// </summary>
+        /// <param name="movieid">The MovieID primary key</param>
+        /// <param name="actorid">The actorID primary key</param>
+        ///<return>
+        /// HEADER: 200 (OK)
+        /// or
+        /// HEADER: 404 (NOT FOUND)
+        /// </return>
+        /// <example>POST : api/moviedata/NotAssociateMovieWithActor/{movieid}/{actorid}</example>
+        [HttpPost]
+        [Route("api/moviedata/NotAssociateMovieWithActor/{movieid}/{actorid}")]
+        public IHttpActionResult NotAssociateMovieWithActor(int movieid, int actorid)
+        {
+            Movie SelectedMovie = db.Movies.Include(m => m.Actors).Where(m => m.MovieID == movieid).FirstOrDefault();
+            Actor SelectedActor = db.Actors.Find(actorid);
+
+            if (SelectedMovie == null || SelectedActor == null)
+            {
+                return NotFound();
+            }
+
+            SelectedMovie.Actors.Remove(SelectedActor);
+            db.SaveChanges();
+
+            return Ok();
+        }
+
+
+        ///Objective: Create a method that allow us to return the selected movie by entering a interger value of the selected movie id
+        /// <summary>
+        /// Return the selected the movie from the database
+        /// </summary>
+        /// <param name="id">MovieID</param>
+        /// <return>The selected movie</return>
+        ///<example>GET: api/MovieData/FindMovie/{id}</example>
         [ResponseType(typeof(Movie))]
         [HttpGet]
         public IHttpActionResult FindMovie(int id)
@@ -53,7 +150,21 @@ namespace MovieReviewPassionProject.Models
             return Ok(Movie);
         }
 
-        // PUT: api/MovieData/UpdateMovie/{id}
+        ///Objective: Create a method that allow us to access the selected movie by entering a interger value of the selected movie id
+        ///Then Update the selected movie with JSON form data of the movie model 
+        /// <summary>
+        /// Update the selected the movie from the database
+        /// </summary>
+        /// <param name="id">MovieID</param>
+        /// <param name="movie">Movie JSON form data</param>
+        /// <returns>
+        /// HEADER: 204 (Success, No Content Response)
+        /// or
+        /// HEADER: 400 (Bad Request)
+        /// or
+        /// HEADER: 404 (Not Found)
+        /// </returns>
+        ///<example>POST: api/MovieData/UpdateMovie/{id}</example>
         [ResponseType(typeof(void))]
         [HttpPost]
         public IHttpActionResult UpdateMovie(int id, Movie movie)
@@ -89,7 +200,17 @@ namespace MovieReviewPassionProject.Models
             return StatusCode(HttpStatusCode.NoContent);
         }
 
-        // POST: api/MovieData/AddMovie
+        ///Objective: Create a method that allow us to add a new movie by JSON form data of the movie model into the database 
+        /// <summary>
+        /// Add a new movie into the database
+        /// </summary>
+        /// <param name="movie">Movie JSON form data</param>
+        /// <returns>
+        /// HEADER: 204 (Success, No Content Response)
+        /// or
+        /// HEADER: 400 (Bad Request)
+        /// </returns>
+        ///<example>POST: api/MovieData/AddMovie</example>
         [ResponseType(typeof(Movie))]
         [HttpPost]
         public IHttpActionResult AddMovie(Movie movie)
@@ -105,7 +226,17 @@ namespace MovieReviewPassionProject.Models
             return CreatedAtRoute("DefaultApi", new { id = movie.MovieID }, movie);
         }
 
-        // DELETE: api/MovieData/DeleteMovie/{id}
+        ///Objective: Create a method that allow us to delete the selected movie by entering a interger value of the selected movie id
+        /// <summary>
+        /// Remove the selected the movie from the database
+        /// </summary>
+        /// <param name="id">MovieID</param>
+        /// <returns>
+        /// HEADER: 200 (OK)
+        /// or
+        /// HEADER: 404 (NOT FOUND)
+        /// </returns>
+        ///<example>POST: api/MovieData/DeleteMovieMovie/{id}</example>
         [ResponseType(typeof(Movie))]
         [HttpPost]
         public IHttpActionResult DeleteMovie(int id)

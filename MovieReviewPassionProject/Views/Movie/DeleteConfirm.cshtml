@@ -1,0 +1,15 @@
+﻿@model MovieReviewPassionProject.Models.MovieDto
+@{
+    ViewBag.Title = "DeleteConfirm";
+}
+
+<h2>Last chance to confirm</h2>
+<a href="/Movie/List">Cancel</a>
+<h2>@Model.MovieName</h2>
+<div> Genre : @Model.MovieGenre</div>
+<div>Year : @Model.Year</div>
+<div>Info : @Model.MovieInfo</div>
+<form action="/Movie/Delete/@Model.MovieID" method="POST">
+    <input type="submit" value="Confirm" />
+</form>
+

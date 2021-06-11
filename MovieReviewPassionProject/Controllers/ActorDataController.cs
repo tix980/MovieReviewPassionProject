@@ -16,11 +16,72 @@ namespace MovieReviewPassionProject.Controllers
     {
         private ApplicationDbContext db = new ApplicationDbContext();
 
-        // GET: api/ActorData/ListActors
+        ///Objective: Create a method that allow us to return all actors from the database
+        /// <summary>
+        /// return all actors from the database
+        /// </summary>
+        /// <returns>List of actors in the database</returns>
+        /// <example>GET: api/ActorData/ListActors</example>
         [HttpGet]
         public List<ActorDto> ListActors()
         {
             List<Actor> Actors = db.Actors.ToList();
+            List<ActorDto> ActorDtos = new List<ActorDto>();
+
+            Actors.ForEach(a => ActorDtos.Add(new ActorDto()
+            {
+                ActorId = a.ActorId,
+                ActorName = a.ActorName,
+                ActorAge = a.ActorAge,
+                Education = a.Education,
+                RewardCount = a.RewardCount,
+                ActorImg = a.ActorImg
+            }));
+
+            return ActorDtos;
+        }
+
+        ///Objective: Create a method that allow us to return all actors that are related to the selected movie
+        ///by entering a interger value of the selected movie id
+        /// <summary>
+        /// Return all actors that are related to the movie from the database
+        /// </summary>
+        /// <param name="id">movieID</param>
+        /// <returns>List of actors that are related to the selected movie</returns>
+        ///<example>GET: api/ActorData/ListActorsForMovie</example>
+        [HttpGet]
+        public List<ActorDto> ListActorsForMovie(int id)
+        {
+            List<Actor> Actors = db.Actors.Where(a => a.Movies.Any(
+                m => m.MovieID == id)).ToList();
+            List<ActorDto> ActorDtos = new List<ActorDto>();
+
+            Actors.ForEach(a => ActorDtos.Add(new ActorDto()
+            {
+                ActorId = a.ActorId, 
+                ActorName = a.ActorName,
+                ActorAge = a.ActorAge,
+                Education = a.Education,
+                RewardCount = a.RewardCount,
+                ActorImg = a.ActorImg
+            }));
+
+            return ActorDtos;
+        }
+
+        ///Objective: Create a method that allow us to return all actors that are not related to the selected movie
+        ///by entering a interger value of the selected movie id
+        /// <summary>
+        /// Return all actors that are not related to the movie from the database
+        /// </summary>
+        /// <param name="id">movieID</param>
+        /// <returns>List of actors that are not related to the selected movie</returns>
+        ///<example>GET: api/ActorData/ListActorsNotInMovie</example>
+        [HttpGet]
+        public List<ActorDto> ListActorsNotInMovie(int id)
+        {
+            List<Actor> Actors = db.Actors.Where(a => !a.Movies.Any(
+                m => m.MovieID == id)).ToList();
             List<ActorDto> ActorDtos = new List<ActorDto>();
 
             Actors.ForEach(a => ActorDtos.Add(new ActorDto()
@@ -36,7 +97,13 @@ namespace MovieReviewPassionProject.Controllers
             return ActorDtos;
         }
 
-        // GET: api/ActorData/FindActor/{id}
+        ///Objective: Create a method that allow us to return the selected actor by entering a interger value of the selected actor id
+        /// <summary>
+        /// Return the selected the actor from the database
+        /// </summary>
+        /// <param name="id">actorID</param>
+        /// <return>The selected actor</return>
+        ///<example>GET: api/ActorData/FindActor/{id}</example>
         [ResponseType(typeof(Actor))]
         [HttpGet]
         public IHttpActionResult FindActor(int id)
@@ -47,7 +114,9 @@ namespace MovieReviewPassionProject.Controllers
                 ActorId = Actor.ActorId,
                 ActorImg = Actor.ActorImg,
                 ActorName = Actor.ActorName,
-                ActorAge = Actor.ActorAge
+                ActorAge = Actor.ActorAge,
+                Education = Actor.Education,
+                RewardCount = Actor.RewardCount
             };
             if (Actor == null)
             {
@@ -57,7 +126,21 @@ namespace MovieReviewPassionProject.Controllers
             return Ok(ActorDto);
         }
 
-        // PUT: api/ActorData/UpdateActor/{id}
+        ///Objective: Create a method that allow us to access the selected actor by entering a interger value of the selected actor  id
+        ///Then Update the selected actor with JSON form data of the actor  model 
+        /// <summary>
+        /// Update the selected the actor  from the database
+        /// </summary>
+        /// <param name="id">actor ID</param>
+        /// <param name="actor ">Actor  JSON form data</param>
+        /// <returns>
+        /// HEADER: 204 (Success, No Content Response)
+        /// or
+        /// HEADER: 400 (Bad Request)
+        /// or
+        /// HEADER: 404 (Not Found)
+        /// </returns>
+        ///<example>POST: api/ActorData/UpdateActor/{id}</example>
         [ResponseType(typeof(void))]
         [HttpPost]
         public IHttpActionResult UpdateActor(int id, Actor actor)
@@ -93,7 +176,17 @@ namespace MovieReviewPassionProject.Controllers
             return StatusCode(HttpStatusCode.NoContent);
         }
 
-        // POST: api/ActorData/AddActor
+        ///Objective: Create a method that allow us to add a new actor by JSON form data of the actor model into the database 
+        /// <summary>
+        /// Add a new actor into the database
+        /// </summary>
+        /// <param name="actor">Actor JSON form data</param>
+        /// <returns>
+        /// HEADER: 204 (Success, No Content Response)
+        /// or
+        /// HEADER: 400 (Bad Request)
+        /// </returns>
+        ///<example>POST: api/ActorData/AddActor</example>
         [ResponseType(typeof(Actor))]
         [HttpPost]
         public IHttpActionResult AddActor(Actor actor)
@@ -109,7 +202,17 @@ namespace MovieReviewPassionProject.Controllers
             return CreatedAtRoute("DefaultApi", new { id = actor.ActorId }, actor);
         }
 
-        // DELETE: api/ActorData/DeleteActor/{id}
+        ///Objective: Create a method that allow us to delete the selected actor by entering a interger value of the selected actor id
+        /// <summary>
+        /// Remove the selected the actor from the database
+        /// </summary>
+        /// <param name="id">actorID</param>
+        /// <returns>
+        /// HEADER: 200 (OK)
+        /// or
+        /// HEADER: 404 (NOT FOUND)
+        /// </returns>
+        ///<example>POST: api/ActorData/DeleteActor/{id}</example>
         [ResponseType(typeof(Actor))]
         [HttpPost]
         public IHttpActionResult DeleteActor(int id)

@@ -1,0 +1,14 @@
+﻿@model MovieReviewPassionProject.Models.ActorDto
+@{
+    ViewBag.Title = "DeleteConfirm";
+}
+
+<h2>DeleteConfirm</h2>
+<h2>@Model.ActorName</h2>
+<div> Age : @Model.ActorAge</div>
+<div> Total rewards : @Model.RewardCount</div>
+<div>Education : @Model.Education</div>
+<form action="/actor/delete/@Model.ActorId" method="POST">
+    <input type="submit" value="delete" />
+</form> 
+

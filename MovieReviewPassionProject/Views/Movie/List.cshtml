@@ -1,0 +1,16 @@
+﻿@model List<MovieReviewPassionProject.Models.MovieDto>
+@{
+    ViewBag.Title = "List";
+}
+<a href="/Movie/New" class="navlink">Add</a>
+<div class="detailInfo">
+    <h2>Movie List</h2>
+    @foreach (var movie in Model)
+    {
+        <h2><a href="/Movie/Details/@movie.MovieID" style="color:red; font-weight:bold;">@movie.MovieName</a></h2>
+        <div> Genre : @movie.MovieGenre</div>
+        <div>Year : @movie.Year.ToString("yyyy")</div>
+        <div>Info : @movie.MovieInfo</div>
+    }
+
+</div>

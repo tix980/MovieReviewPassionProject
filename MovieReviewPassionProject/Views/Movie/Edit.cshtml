@@ -1,0 +1,35 @@
+﻿@model MovieReviewPassionProject.Models.ViewModels.DetailMovie
+@{
+    ViewBag.Title = "Edit";
+}
+
+<h2>Update Movie Info</h2>
+<form action="/Movie/Update/@Model.SelectedMovie.MovieID" method="POST">
+    <div>
+        <label>Movie ID:</label><input type="text" name="MovieID" value="@Model.SelectedMovie.MovieID" />
+    </div>
+    <div>
+        <label>Name:</label><input type="text" name="MovieName" value="@Model.SelectedMovie.MovieName" />
+    </div>
+    <div>
+        <label>Genre:</label><input type="text" name="MovieGenre" value="@Model.SelectedMovie.MovieGenre" />
+    </div>
+    <div>
+        <label>Year:</label><input type="text" name="Year" value="@Model.SelectedMovie.Year" />
+    </div>
+    <div>
+        <label>Info:</label><input type="text" name="MovieInfo" value="@Model.SelectedMovie.MovieInfo" />
+    </div>
+    <div>
+        <label>Reviews:</label>
+        <select name="ReviewID">
+            @foreach (var review in Model.relatedReviews)
+            {
+                <option value="@review.ReviewID"> @review.AuthorName</option>
+            }
+        </select>
+    </div>
+    <div>
+        <input type="submit" value="Update movie" />
+    </div>
+</form>

@@ -1,0 +1,16 @@
+﻿@model List<MovieReviewPassionProject.Models.ActorDto>
+@{
+    ViewBag.Title = "List";
+}
+<a href="/Actor/New" class="navlink">Add</a>
+<div class="detailInfo">
+    <h2>List actors</h2>
+    @foreach (var actor in Model)
+    {
+        <h2><a href="/actor/Details/@actor.ActorId">@actor.ActorName</a></h2>
+        <div> Age : @actor.ActorAge</div>
+        <div> Total rewards : @actor.RewardCount</div>
+        <div>Education : @actor.Education</div>
+    }
+
+</div>

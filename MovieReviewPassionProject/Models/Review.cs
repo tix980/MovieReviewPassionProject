@@ -24,6 +24,7 @@ namespace MovieReviewPassionProject.Models
 
     public class ReviewDto
     {
+        public int MovieID { get; set; }
         public string MovieName { get; set; }
         public int ReviewID { get; set; }
         public string AuthorName { get; set; }

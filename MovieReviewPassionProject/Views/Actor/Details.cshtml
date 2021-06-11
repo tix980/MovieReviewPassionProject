@@ -1,0 +1,23 @@
+﻿@model MovieReviewPassionProject.Models.ViewModels.DetailActor
+@{
+    ViewBag.Title = "Details";
+}
+
+<a href="/actor/list" class="navlink">Go back</a>
+<a href="/actor/edit/@Model.selectedActor.ActorId" class="navlink">Update</a>
+<a href="/actor/DeleteConfirm/@Model.selectedActor.ActorId" class="dellink">Delete</a>
+<div class="detailInfo">
+    <h2>Actor Information</h2>
+    <h2>@Model.selectedActor.ActorName</h2>
+    <div> Age : @Model.selectedActor.ActorAge</div>
+    <div> Total rewards : @Model.selectedActor.RewardCount</div>
+    <div>Education : @Model.selectedActor.Education</div>
+
+    <div>
+        <h3>This actor was in the following movies:</h3>
+        @foreach (var movie in Model.relatedMovies)
+        {
+            <a href="/movie/details/@movie.MovieID">@movie.MovieName</a>
+        }
+    </div>
+</div>

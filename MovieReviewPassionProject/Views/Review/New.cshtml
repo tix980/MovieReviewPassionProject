@@ -1,0 +1,33 @@
+﻿@model List<MovieReviewPassionProject.Models.MovieDto>
+@{
+    ViewBag.Title = "New";
+}
+
+<h2>New review</h2>
+<form action="/Review/Create" method="POST">
+    <div>
+        <label>Username:</label><input name="AuthorName" />
+    </div>
+    <div>
+        <label>Ratings:</label><input name="StarRatings" />
+    </div>
+    <div>
+        <label>Comment:</label><input name="ReviewDetail" />
+    </div>
+    <div>
+        <label>Date:</label><input name="ReviewDate" />
+    </div>
+    <div>
+        <label>Movies:</label>
+        <select name="MovieID">
+            @foreach (var movie in Model)
+            {
+                <option value="@movie.MovieID">@movie.MovieName</option>
+            }
+        </select>
+    </div>
+    <div>
+        <input type="submit" value="add review" />
+    </div>
+</form>
+

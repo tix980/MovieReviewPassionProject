@@ -1,0 +1,43 @@
+﻿@model MovieReviewPassionProject.Models.ViewModels.DetailMovie
+@{
+    ViewBag.Title = "Details";
+}
+<a href="/Movie/List" class="navlink">Go back</a>
+<a href="/Movie/edit/@Model.SelectedMovie.MovieID" class="navlink">Update</a>
+<a href="/Movie/DeleteConfirm/@Model.SelectedMovie.MovieID" class="dellink">Delete</a>
+<div class="detailInfo">
+    <h2>@Model.SelectedMovie.MovieName</h2>
+    <div> Genre : @Model.SelectedMovie.MovieGenre</div>
+    <div>Year : @Model.SelectedMovie.Year.ToString("yyyy")</div>
+    <div>Info : @Model.SelectedMovie.MovieInfo</div>
+</div>
+<div style="margin-top:50px;">
+    <h3>Reviews related to the movie</h3>
+    @foreach (var review in Model.relatedReviews)
+    {
+        <a href="/review/details/@review.ReviewID">@review.AuthorName</a>
+        <div>@review.ReviewDetail</div>
+    }
+</div>
+<div style="margin-top:50px;">
+    <h3>Actors related to the movie</h3>
+    @foreach (var actor in Model.relatedActors)
+    {
+        <a href="/actor/details/@actor.ActorId">@actor.ActorName</a><a href="/Movie/NotAssociate/@Model.SelectedMovie.MovieID?ActorId=@actor.ActorId">[x]</a>
+    }
+
+    <div>
+        <h3>Add new Actor to the movie @Model.SelectedMovie.MovieName</h3>
+        <form action="/Movie/Associate/@Model.SelectedMovie.MovieID/" method="POST">
+            <select name="ActorId">
+                @foreach (var actor in Model.AvailableActors)
+                {
+                    <option value="@actor.ActorId">@actor.ActorName</option>
+                }
+            </select>
+            <input type="submit" value="add actor" />
+        </form>
+
+    </div>
+
+</div>

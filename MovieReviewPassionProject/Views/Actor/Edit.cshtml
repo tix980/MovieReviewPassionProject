@@ -1,0 +1,27 @@
+﻿@model MovieReviewPassionProject.Models.ActorDto
+@{
+    ViewBag.Title = "Edit";
+}
+
+<h2>Update actor info</h2>
+<form action="/Actor/Update/@Model.ActorId" method="POST">
+    <div>
+        <label>Actor ID:</label><input type="text" name="ActorId" value="@Model.ActorId" />
+    </div>
+    <div>
+        <label>Name:</label><input type="text" name="ActorName" value="@Model.ActorName" />
+    </div>
+    <div>
+        <label>Age:</label><input type="text" name="ActorAge" value="@Model.ActorAge" />
+    </div>
+    <div>
+        <label>Total rewards:</label><input type="text" name="RewardCount" value="@Model.RewardCount" />
+    </div>
+    <div>
+        <label>Education:</label><input type="text" name="Education" value="@Model.Education" />
+    </div>
+    <div>
+        <input type="submit" value="edit actor" />
+    </div>
+</form>
+
