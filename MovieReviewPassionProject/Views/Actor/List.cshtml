@@ -4,13 +4,17 @@
 }
 <a href="/Actor/New" class="navlink">Add</a>
 <div class="detailInfo">
-    <h2>List actors</h2>
-    @foreach (var actor in Model)
-    {
-        <h2><a href="/actor/Details/@actor.ActorId">@actor.ActorName</a></h2>
-        <div> Age : @actor.ActorAge</div>
-        <div> Total rewards : @actor.RewardCount</div>
-        <div>Education : @actor.Education</div>
-    }
-
+    <h2>Actor List</h2>
+    <div class="flex-container">
+        @foreach (var actor in Model)
+        {
+            <div class="flex-item">
+                <img src="~/Content/img/no-poster.jpg" alt="pending poster" />
+                <h2><a href="/actor/Details/@actor.ActorId">@actor.ActorName</a></h2>
+                <div> Age : @actor.ActorAge</div>
+                <div> Total rewards : @actor.RewardCount</div>
+                <div>Education : @actor.Education</div>
+            </div>
+        }
+    </div>
 </div>

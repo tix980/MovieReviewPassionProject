@@ -6,12 +6,16 @@
 }
 <a href="/Review/New" class="navlink">Add</a>
 <div class="detailInfo">
-    @foreach (var review in Model)
-    {
-        <h2><a href="/Review/Details/@review.ReviewID">@review.MovieName</a></h2>
-        <div>User name : @review.AuthorName</div>
-        <div>Ratings : @review.StarRatings</div>
-        <div>Review Date : @review.ReviewDate</div>
-        <div>Review : @review.ReviewDetail</div>
-    }
+    <h1>Reviewers:</h1>
+    <div>
+        @foreach (var review in Model)
+        {
+            <h2><a href="/Review/Details/@review.ReviewID">@review.AuthorName</a></h2>
+            <div>Reviewed Movie :@review.MovieName</div>
+            <div>Ratings : @review.StarRatings</div>
+            <div>Review Date : @review.ReviewDate</div>
+            <div>Review : @review.ReviewDetail</div>
+        }
+    </div>
+
 </div>

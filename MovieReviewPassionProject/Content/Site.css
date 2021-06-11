@@ -55,3 +55,12 @@ h3 {
     background-color: red;
     margin-top: 1em;
 }
+
+.flex-container{
+    display:flex;
+    flex-flow:row wrap;
+}
+
+.flex-item {
+    margin-right: 3em;
+}
