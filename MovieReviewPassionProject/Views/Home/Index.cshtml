@@ -1,31 +1,26 @@
 ﻿@{
     ViewBag.Title = "Home Page";
 }
-
-<div class="jumbotron">
-    <h1>ASP.NET</h1>
-    <p class="lead">ASP.NET is a free web framework for building great Web sites and Web applications using HTML, CSS and JavaScript.</p>
-    <p><a href="https://asp.net" class="btn btn-primary btn-lg">Learn more &raquo;</a></p>
-</div>
+<h1 id="homepage-heading">Welcome to the Rotten Potatoes movie site</h1>
+<img src="~/Content/img/cinema.jpg" alt="cover pic" width="1100" id="homepage-cover" />
 
 <div class="row">
     <div class="col-md-4">
-        <h2>Getting started</h2>
+        <h2>Actors</h2>
         <p>
-            ASP.NET MVC gives you a powerful, patterns-based way to build dynamic websites that
-            enables a clean separation of concerns and gives you full control over markup
-            for enjoyable, agile development.
+            Do you want to know some background information about a particular actor? Come click the link below!! This website has all the information of popular actors
+            around the world! You might even find that you missed some of the best movies that the actor starred in.
         </p>
-        <p><a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkId=301865">Learn more &raquo;</a></p>
+        <p><a class="btn btn-default" href="/Actor/List">Actors!</a></p>
     </div>
     <div class="col-md-4">
-        <h2>Get more libraries</h2>
-        <p>NuGet is a free Visual Studio extension that makes it easy to add, remove, and update libraries and tools in Visual Studio projects.</p>
-        <p><a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkId=301866">Learn more &raquo;</a></p>
+        <h2>Movies</h2>
+        <p>Are you tired of watching your favorite movies over and over again? No worries! Come and click the button below to find your  new favorite movie to watch over and over again!</p>
+        <p><a class="btn btn-default" href="/Movie/List">Movies!</a></p>
     </div>
     <div class="col-md-4">
-        <h2>Web Hosting</h2>
-        <p>You can easily find a web hosting company that offers the right mix of features and price for your applications.</p>
-        <p><a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkId=301867">Learn more &raquo;</a></p>
+        <h2>Reviews</h2>
+        <p>Come click the button to check out the reviews that are related to the movie that you want to watch. So you know whether the movie you want to watch is good or bad.</p>
+        <p><a class="btn btn-default" href="/Review/List">Reviews!</a></p>
     </div>
 </div>

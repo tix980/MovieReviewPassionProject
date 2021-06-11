@@ -24,6 +24,16 @@ textarea {
     max-width: 280px;
 }
 
+#homepage-heading {
+    margin-bottom: 1em;
+    margin-top: 1.2em;
+    margin-left: 5em;
+    color: #BA1200;
+}
+
+#homepage-cover {
+}
+
 h2, h3, a {
     color: red;
     font-weight: bold;
