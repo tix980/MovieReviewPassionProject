@@ -1,6 +1,7 @@
 ﻿body {
     padding-top: 50px;
     padding-bottom: 20px;
+    background-color: azure;
 }
 
 /* Set padding to keep content from hitting the edges */
@@ -34,8 +35,7 @@ h2, h3, a {
 
 
 h3 {
-    border-bottom: 1px solid black;
-    margin-bottom: 5em;
+    border-top: 1px solid black;
 }
 
 .navlink {
@@ -63,4 +63,33 @@ h3 {
 
 .flex-item {
     margin-right: 3em;
+}
+
+.navbar-inverse {
+    background-color: #BA1200;
+    border-color: #080808;
+}
+
+#potato{
+    height:50px;
+}
+
+#actor-pic, #movie-pic {
+    margin-right: 11em;
+    margin-left: 12em;
+    margin-top: 5em;
+}
+
+#movieInfo, #actorInfo {
+    margin-top: 5em;
+    line-height:4em;
+}
+
+#related-movies{
+    padding-top:7em;
+    line-height:2em;
+}
+
+.additional-info h3 , #related-movies h3 {
+    padding-top: 1em;
 }

@@ -7,13 +7,18 @@
 <a href="/actor/edit/@Model.selectedActor.ActorId" class="navlink">Update</a>
 <a href="/actor/DeleteConfirm/@Model.selectedActor.ActorId" class="dellink">Delete</a>
 <div class="detailInfo">
-    <h2>Actor Information</h2>
-    <h2>@Model.selectedActor.ActorName</h2>
-    <div> Age : @Model.selectedActor.ActorAge</div>
-    <div> Total rewards : @Model.selectedActor.RewardCount</div>
-    <div>Education : @Model.selectedActor.Education</div>
+    <div class="flex-container">
+        <img src="~/Content/img/no-poster.jpg" alt="actor picture" id="actor-pic" />
+        <div id="actorInfo">
+            <h1>Actor Information</h1>
+            <h2>@Model.selectedActor.ActorName</h2>
+            <div> Age : @Model.selectedActor.ActorAge</div>
+            <div> Total rewards : @Model.selectedActor.RewardCount</div>
+            <div>Education : @Model.selectedActor.Education</div>
+        </div>
+    </div>
 
-    <div>
+    <div id="related-movies">
         <h3>This actor was in the following movies:</h3>
         @foreach (var movie in Model.relatedMovies)
         {

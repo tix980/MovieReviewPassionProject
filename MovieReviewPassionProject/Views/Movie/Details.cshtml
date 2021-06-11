@@ -6,12 +6,17 @@
 <a href="/Movie/edit/@Model.SelectedMovie.MovieID" class="navlink">Update</a>
 <a href="/Movie/DeleteConfirm/@Model.SelectedMovie.MovieID" class="dellink">Delete</a>
 <div class="detailInfo">
-    <h2>@Model.SelectedMovie.MovieName</h2>
-    <div> Genre : @Model.SelectedMovie.MovieGenre</div>
-    <div>Year : @Model.SelectedMovie.Year.ToString("yyyy")</div>
-    <div>Info : @Model.SelectedMovie.MovieInfo</div>
+    <div class="flex-container">
+        <img src="~/Content/img/no-poster.jpg" alt="movie picture" id="movie-pic" />
+        <div id="movieInfo">
+            <h2>@Model.SelectedMovie.MovieName</h2>
+            <div> Genre : @Model.SelectedMovie.MovieGenre</div>
+            <div>Year : @Model.SelectedMovie.Year.ToString("yyyy")</div>
+            <div>Info : @Model.SelectedMovie.MovieInfo</div>
+        </div>
+    </div>
 </div>
-<div style="margin-top:50px;">
+<div style="margin-top:50px;" class="additional-info">
     <h3>Reviews related to the movie</h3>
     @foreach (var review in Model.relatedReviews)
     {
@@ -19,14 +24,14 @@
         <div>@review.ReviewDetail</div>
     }
 </div>
-<div style="margin-top:50px;">
+<div style="margin-top:50px;" class="additional-info">
     <h3>Actors related to the movie</h3>
     @foreach (var actor in Model.relatedActors)
     {
         <a href="/actor/details/@actor.ActorId">@actor.ActorName</a><a href="/Movie/NotAssociate/@Model.SelectedMovie.MovieID?ActorId=@actor.ActorId">[x]</a>
     }
 
-    <div>
+    <div class="additional-info">
         <h3>Add new Actor to the movie @Model.SelectedMovie.MovieName</h3>
         <form action="/Movie/Associate/@Model.SelectedMovie.MovieID/" method="POST">
             <select name="ActorId">
