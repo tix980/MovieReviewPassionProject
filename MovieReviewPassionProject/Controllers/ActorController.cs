@@ -18,8 +18,26 @@ namespace MovieReviewPassionProject.Controllers
 
         static ActorController()
         {
-            client = new HttpClient();
+            HttpClientHandler handler = new HttpClientHandler()
+            {
+                AllowAutoRedirect = false,
+                UseCookies = false
+            };
+            client = new HttpClient(handler);
             client.BaseAddress = new Uri("https://localhost:44336/api/");
+        }
+
+        private void GetApplicationCookie()
+        {
+            string token = "";
+            client.DefaultRequestHeaders.Remove("Cookie");
+            if (!User.Identity.IsAuthenticated) return;
+
+            HttpCookie cookie = System.Web.HttpContext.Current.Request.Cookies.Get(".AspNet.ApplicationCookie");
+            if (cookie != null) token = cookie.Value;
+            if (token != "") client.DefaultRequestHeaders.Add("Cookie", ".AspNet.ApplicationCookie=" + token);
+
+            return;
         }
 
         // GET: Actor/List
@@ -53,6 +71,7 @@ namespace MovieReviewPassionProject.Controllers
         }
 
         // GET: Actor/New
+        [Authorize]
         public ActionResult New()
         {
             return View();
@@ -60,8 +79,10 @@ namespace MovieReviewPassionProject.Controllers
 
         // POST: Actor/Create
         [HttpPost]
+        [Authorize]
         public ActionResult Create(Actor actor)
         {
+            GetApplicationCookie();
             //creating an actor json data, turn into a string, then eject it into the database
             string url = "ActorData/AddActor";
             string jsonpayload = jss.Serialize(actor);
@@ -85,6 +106,7 @@ namespace MovieReviewPassionProject.Controllers
         }
 
         // GET: Actor/Edit/{id}
+        [Authorize]
         public ActionResult Edit(int id)
         {
             //Accessing the selected actor that we want to update
@@ -96,8 +118,10 @@ namespace MovieReviewPassionProject.Controllers
 
         // POST: Actor/Update/{id}
         [HttpPost]
+        [Authorize]
         public ActionResult Update(int id, Actor actor)
         {
+            GetApplicationCookie();
             //Use the UpdateActor(int id) Method to update the selected actor's information
             string url = "ActorData/UpdateActor/" + id;
             string jsonpayload = jss.Serialize(actor);
@@ -117,6 +141,7 @@ namespace MovieReviewPassionProject.Controllers
 
 
         // GET: Actor/DeleteConfirm/{id}
+        [Authorize]
         public ActionResult DeleteConfirm(int id)
         {
             //Accessing a delete confirm page that display the full detail of the selected actor
@@ -128,8 +153,10 @@ namespace MovieReviewPassionProject.Controllers
 
         // POST: Actor/Delete/{id}
         [HttpPost]
+        [Authorize]
         public ActionResult Delete(int id)
         {
+            GetApplicationCookie();
             //Accessing the DeleteActor(int id) method to delete the selected actor
             string url = "actorData/DeleteActor/" + id;
             HttpContent content = new StringContent("");

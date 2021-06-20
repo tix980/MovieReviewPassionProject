@@ -115,6 +115,7 @@ namespace MovieReviewPassionProject.Controllers
         ///<example>POST: api/ReviewData/UpdateReview/{id}</example>
         [ResponseType(typeof(void))]
         [HttpPost]
+        [Authorize]
         public IHttpActionResult UpdateReview(int id, Review review)
         {
             if (!ModelState.IsValid)
@@ -161,6 +162,7 @@ namespace MovieReviewPassionProject.Controllers
         ///<example>POST: api/ReviewData/AddReview</example>
         [ResponseType(typeof(Review))]
         [HttpPost]
+        [Authorize]
         public IHttpActionResult AddReview(Review review)
         {
             if (!ModelState.IsValid)
@@ -187,6 +189,7 @@ namespace MovieReviewPassionProject.Controllers
         ///<example>POST: api/ReviewData/DeleteReview/{id}</example>
         [ResponseType(typeof(Review))]
         [HttpPost]
+        [Authorize]
         public IHttpActionResult DeleteReview(int id)
         {
             Review review = db.Reviews.Find(id);

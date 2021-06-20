@@ -143,6 +143,7 @@ namespace MovieReviewPassionProject.Controllers
         ///<example>POST: api/ActorData/UpdateActor/{id}</example>
         [ResponseType(typeof(void))]
         [HttpPost]
+        [Authorize]
         public IHttpActionResult UpdateActor(int id, Actor actor)
         {
             if (!ModelState.IsValid)
@@ -189,6 +190,7 @@ namespace MovieReviewPassionProject.Controllers
         ///<example>POST: api/ActorData/AddActor</example>
         [ResponseType(typeof(Actor))]
         [HttpPost]
+        [Authorize]
         public IHttpActionResult AddActor(Actor actor)
         {
             if (!ModelState.IsValid)
@@ -215,6 +217,7 @@ namespace MovieReviewPassionProject.Controllers
         ///<example>POST: api/ActorData/DeleteActor/{id}</example>
         [ResponseType(typeof(Actor))]
         [HttpPost]
+        [Authorize]
         public IHttpActionResult DeleteActor(int id)
         {
             Actor actor = db.Actors.Find(id);

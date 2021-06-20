@@ -17,9 +17,30 @@ namespace MovieReviewPassionProject.Controllers
         private JavaScriptSerializer jss = new JavaScriptSerializer();
 
         static MovieController(){
-            client = new HttpClient();
+            HttpClientHandler handler = new HttpClientHandler()
+            {
+                AllowAutoRedirect = false,
+                UseCookies = false
+            };
+            client = new HttpClient(handler);
             client.BaseAddress = new Uri("https://localhost:44336/api/");
          }
+
+        private void GetApplicationCookie()
+        {
+            string token = "";
+            client.DefaultRequestHeaders.Remove("Cookie");
+            if (!User.Identity.IsAuthenticated) return;
+
+            HttpCookie cookie = System.Web.HttpContext.Current.Request.Cookies.Get(".AspNet.ApplicationCookie");
+            if (cookie != null) token = cookie.Value;
+
+            if (token != "") client.DefaultRequestHeaders.Add("Cookie", ".AspNet.ApplicationCookie=" + token);
+
+            return;
+
+        }
+
 
         // GET: Movie/List
         public ActionResult List()
@@ -68,8 +89,10 @@ namespace MovieReviewPassionProject.Controllers
 
         //POST: Movie/Associate/{animalid}
         [HttpPost]
+        [Authorize]
         public ActionResult Associate(int id,int ActorId)
         {
+            GetApplicationCookie();
             //Associate a selected Movie and a selected Actor 
             string url = "MovieData/AssociateMovieWithActor/" + id +"/" + ActorId;
             HttpContent content = new StringContent("");
@@ -81,8 +104,10 @@ namespace MovieReviewPassionProject.Controllers
 
         //GET: Movie/NotAssociate/{id}?ActorId ={ActorId}
         [HttpGet]
+        [Authorize]
         public ActionResult NotAssociate(int id, int ActorId)
         {
+            GetApplicationCookie();
             // Seperate the connection between a selected Movie and a selected Actor 
             Debug.WriteLine("Attempting to unassociate movie :" + id + " with actor: " + ActorId);
             string url = "MovieData/NotAssociateMovieWithActor/" + id + "/" + ActorId;
@@ -94,6 +119,7 @@ namespace MovieReviewPassionProject.Controllers
         }
 
         // GET: Movie/Create
+        [Authorize]
         public ActionResult New()
         {
             //information about all reviews
@@ -106,8 +132,10 @@ namespace MovieReviewPassionProject.Controllers
 
         // POST: Movie/Create
         [HttpPost]
+        [Authorize]
         public ActionResult Create(Movie movie)
         {
+            GetApplicationCookie();
             //curl -d @movie.json -H "Content-Type:application/json" https://localhost:44336/api/MovieData/AddReview
 
             string url = "MovieData/addmovie";
@@ -142,6 +170,7 @@ namespace MovieReviewPassionProject.Controllers
         }
 
         // GET: Movie/Edit/5
+        [Authorize]
         public ActionResult Edit(int id)
         {
             //Accessing the detail information of the selected movie
@@ -163,8 +192,10 @@ namespace MovieReviewPassionProject.Controllers
 
         // POST: Movie/Edit/5
         [HttpPost]
+        [Authorize]
         public ActionResult Update(int id, Movie movie)
         {
+            GetApplicationCookie();
             //Accessing and updating the selected movie's information 
             string url = "moviedata/updatemovie/" + id;
             string jsonpayload = jss.Serialize(movie);
@@ -184,6 +215,7 @@ namespace MovieReviewPassionProject.Controllers
         }
 
         // GET: Movie/Delete/5
+        [Authorize]
         public ActionResult DeleteConfirm(int id)
         {
             //Accessing a delete confirm page that display the full detail of the selected movie
@@ -196,8 +228,10 @@ namespace MovieReviewPassionProject.Controllers
 
         // POST: Movie/Delete/5
         [HttpPost]
+        [Authorize]
         public ActionResult Delete(int id)
         {
+            GetApplicationCookie();
             //Accessing the DeleteMovie(int id) method to delete the selected movie
             string url = "MovieData/DeleteMovie/" + id;
             HttpContent content = new StringContent("");

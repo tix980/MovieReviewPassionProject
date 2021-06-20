@@ -19,9 +19,27 @@ namespace MovieReviewPassionProject.Controllers
 
         static ReviewController()
         {
+            HttpClientHandler handler = new HttpClientHandler()
+            {
+                AllowAutoRedirect = false,
+                UseCookies = false
+            };
             
-            client = new HttpClient();
+            client = new HttpClient(handler);
             client.BaseAddress = new Uri("https://localhost:44336/api/"); 
+        }
+
+        private void getApplicationCookie()
+        {
+            string token = "";
+            client.DefaultRequestHeaders.Remove("Cookie");
+            if (!User.Identity.IsAuthenticated) return;
+
+            HttpCookie cookie = System.Web.HttpContext.Current.Request.Cookies.Get(".AspNet.ApplicationCookie");
+            if (cookie != null) token = cookie.Value;
+            if(token !="")client.DefaultRequestHeaders.Add("Cookie", ".AspNet.ApplicationCookie=" + token);
+
+            return;
         }
 
         // GET: Review/List
@@ -52,6 +70,7 @@ namespace MovieReviewPassionProject.Controllers
         }
 
         // GET: Review/New
+        [Authorize]
         public ActionResult New()
         {
             //Access a list of movies that can be associated(select) with the new review
@@ -63,8 +82,10 @@ namespace MovieReviewPassionProject.Controllers
 
         // POST: Review/Create
         [HttpPost]
+        [Authorize]
         public ActionResult Create(Review review)
         {
+            getApplicationCookie();
             //creating an review json data, turn into a string, then eject it into the database
             //curl -d @movie.json -H "Content-Type:application/json" https://localhost:44336/api/ReviewData/AddReview
             string url = "ReviewData/AddReview";
@@ -92,6 +113,7 @@ namespace MovieReviewPassionProject.Controllers
         }
 
         // GET: Review/Edit/{id}
+        [Authorize]
         public ActionResult Edit(int id)
         {
             //////Instantiating the UpdateReview ViewModel
@@ -114,8 +136,10 @@ namespace MovieReviewPassionProject.Controllers
 
         // POST: Review/Update/{id}
         [HttpPost]
+        [Authorize]
         public ActionResult Update(int id, Review review)
         {
+            getApplicationCookie();
             //Use the UpdateReview(int id) Method to update the selected review's information
             string url = "ReviewData/UpdateReview/" + id;
             string jsonpayload = jss.Serialize(review);
@@ -133,6 +157,7 @@ namespace MovieReviewPassionProject.Controllers
         }
 
         // GET: Review/DeleteConfirm/{id}
+        [Authorize]
         public ActionResult DeleteConfirm(int id)
         {
             //Accessing a delete confirm page that display the full detail of the selected review
@@ -144,8 +169,10 @@ namespace MovieReviewPassionProject.Controllers
 
         // POST: Review/Delete/{id}
         [HttpPost]
+        [Authorize]
         public ActionResult Delete(int id)
         {
+            getApplicationCookie();
             //Accessing the DeleteReview(int id) method to delete the selected review
             string url = "ReviewData/DeleteReview/" + id;
             HttpContent content = new StringContent("");

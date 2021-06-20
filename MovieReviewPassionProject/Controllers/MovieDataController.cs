@@ -75,6 +75,7 @@ namespace MovieReviewPassionProject.Models
         /// <example>POST : api/moviedata/AssociateMovieWithActor/{movieid}/{actorid}</example>
         [HttpPost]
         [Route("api/moviedata/AssociateMovieWithActor/{movieid}/{actorid}")]
+        [Authorize]
         public IHttpActionResult AssociateMovieWithActor(int movieid, int actorid)
         {
             Movie SelectedMovie = db.Movies.Include(m => m.Actors).Where(m=>m.MovieID == movieid).FirstOrDefault();
@@ -105,6 +106,7 @@ namespace MovieReviewPassionProject.Models
         /// <example>POST : api/moviedata/NotAssociateMovieWithActor/{movieid}/{actorid}</example>
         [HttpPost]
         [Route("api/moviedata/NotAssociateMovieWithActor/{movieid}/{actorid}")]
+        [Authorize]
         public IHttpActionResult NotAssociateMovieWithActor(int movieid, int actorid)
         {
             Movie SelectedMovie = db.Movies.Include(m => m.Actors).Where(m => m.MovieID == movieid).FirstOrDefault();
@@ -167,6 +169,7 @@ namespace MovieReviewPassionProject.Models
         ///<example>POST: api/MovieData/UpdateMovie/{id}</example>
         [ResponseType(typeof(void))]
         [HttpPost]
+        [Authorize]
         public IHttpActionResult UpdateMovie(int id, Movie movie)
         {
             if (!ModelState.IsValid)
@@ -213,6 +216,7 @@ namespace MovieReviewPassionProject.Models
         ///<example>POST: api/MovieData/AddMovie</example>
         [ResponseType(typeof(Movie))]
         [HttpPost]
+        [Authorize]
         public IHttpActionResult AddMovie(Movie movie)
         {
             if (!ModelState.IsValid)
@@ -239,6 +243,7 @@ namespace MovieReviewPassionProject.Models
         ///<example>POST: api/MovieData/DeleteMovieMovie/{id}</example>
         [ResponseType(typeof(Movie))]
         [HttpPost]
+        [Authorize]
         public IHttpActionResult DeleteMovie(int id)
         {
             Movie movie = db.Movies.Find(id);
