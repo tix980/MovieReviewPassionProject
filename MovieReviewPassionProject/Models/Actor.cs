@@ -15,7 +15,6 @@ namespace MovieReviewPassionProject.Models
         public int ActorAge { get; set; }
         public string Education { get; set; }
         public int RewardCount { get; set; }
-        public string ActorImg { get; set; }
         public bool ActorPoster { get; set; }
         public string ActorPosterExtension { get; set; }
 
@@ -30,7 +29,6 @@ namespace MovieReviewPassionProject.Models
         public int ActorAge { get; set; }
         public string Education { get; set; }
         public int RewardCount { get; set; }
-        public string ActorImg { get; set; }
         public bool ActorPoster { get; set; }
         public string ActorPosterExtension { get; set; }
     }

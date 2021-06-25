@@ -14,7 +14,6 @@ namespace MovieReviewPassionProject.Models
         public string MovieGenre { get; set; }
         public DateTime Year { get; set; }
         public string MovieInfo {get;set;}
-        public string MovieImg { get; set; }
 
         //images are in content/img/movies/{id}.{extension}
         public bool MoviePoster { get; set; }
@@ -34,7 +33,6 @@ namespace MovieReviewPassionProject.Models
         public string MovieGenre { get; set; }
         public DateTime Year { get; set; }
         public string MovieInfo { get; set; }
-        public string MovieImg { get; set; }
         public bool MoviePoster { get; set; }
         public string MoviePosterExtension { get; set; }
 

@@ -38,7 +38,6 @@ namespace MovieReviewPassionProject.Controllers
                 ActorAge = a.ActorAge,
                 Education = a.Education,
                 RewardCount = a.RewardCount,
-                ActorImg = a.ActorImg,
                 ActorPoster = a.ActorPoster,
                 ActorPosterExtension = a.ActorPosterExtension
             }));
@@ -68,7 +67,6 @@ namespace MovieReviewPassionProject.Controllers
                 ActorAge = a.ActorAge,
                 Education = a.Education,
                 RewardCount = a.RewardCount,
-                ActorImg = a.ActorImg,
                 ActorPoster = a.ActorPoster,
                 ActorPosterExtension = a.ActorPosterExtension
             }));
@@ -94,7 +92,6 @@ namespace MovieReviewPassionProject.Controllers
             Actors.ForEach(a => ActorDtos.Add(new ActorDto()
             {
                 ActorId = a.ActorId,
-                ActorImg = a.ActorImg,
                 ActorPoster = a.ActorPoster,
                 ActorPosterExtension = a.ActorPosterExtension,
                 ActorName = a.ActorName,
@@ -121,7 +118,6 @@ namespace MovieReviewPassionProject.Controllers
             ActorDto ActorDto = new ActorDto()
             {
                 ActorId = Actor.ActorId,
-                ActorImg = Actor.ActorImg,
                 ActorPoster = Actor.ActorPoster,
                 ActorPosterExtension = Actor.ActorPosterExtension,
                 ActorName = Actor.ActorName,

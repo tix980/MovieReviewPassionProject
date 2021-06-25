@@ -31,7 +31,6 @@ namespace MovieReviewPassionProject.Models
             List<MovieDto> MovieDtos = new List<MovieDto>();
             Movies.ForEach(m => MovieDtos.Add(new MovieDto() {
                 MovieID = m.MovieID,
-                MovieImg = m.MovieImg,
                 MoviePoster = m.MoviePoster,
                 MoviePosterExtension = m.MoviePosterExtension,
                 MovieName = m.MovieName,
@@ -58,7 +57,6 @@ namespace MovieReviewPassionProject.Models
             Movies.ForEach(m => MovieDtos.Add(new MovieDto()
             {
                 MovieID = m.MovieID,
-                MovieImg = m.MovieImg,
                 MoviePoster = m.MoviePoster,
                 MoviePosterExtension = m.MoviePosterExtension,
                 MovieName = m.MovieName,
@@ -146,7 +144,6 @@ namespace MovieReviewPassionProject.Models
             MovieDto MovieDto = new MovieDto()
             {
                 MovieID = Movie.MovieID,
-                MovieImg = Movie.MovieImg,
                 MoviePoster = Movie.MoviePoster,
                 MoviePosterExtension = Movie.MoviePosterExtension,
                 MovieName = Movie.MovieName,
