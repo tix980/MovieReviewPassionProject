@@ -3,9 +3,12 @@ using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
 using System.Data.Entity.Infrastructure;
+using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Web;
 using System.Web.Http;
 using System.Web.Http.Description;
 
@@ -29,6 +32,8 @@ namespace MovieReviewPassionProject.Models
             Movies.ForEach(m => MovieDtos.Add(new MovieDto() {
                 MovieID = m.MovieID,
                 MovieImg = m.MovieImg,
+                MoviePoster = m.MoviePoster,
+                MoviePosterExtension = m.MoviePosterExtension,
                 MovieName = m.MovieName,
                 MovieGenre = m.MovieGenre,
                 MovieInfo = m.MovieInfo
@@ -54,6 +59,8 @@ namespace MovieReviewPassionProject.Models
             {
                 MovieID = m.MovieID,
                 MovieImg = m.MovieImg,
+                MoviePoster = m.MoviePoster,
+                MoviePosterExtension = m.MoviePosterExtension,
                 MovieName = m.MovieName,
                 MovieGenre = m.MovieGenre,
                 MovieInfo = m.MovieInfo
@@ -140,6 +147,8 @@ namespace MovieReviewPassionProject.Models
             {
                 MovieID = Movie.MovieID,
                 MovieImg = Movie.MovieImg,
+                MoviePoster = Movie.MoviePoster,
+                MoviePosterExtension = Movie.MoviePosterExtension,
                 MovieName = Movie.MovieName,
                 MovieGenre = Movie.MovieGenre,
                 MovieInfo = Movie.MovieInfo
@@ -183,6 +192,8 @@ namespace MovieReviewPassionProject.Models
             }
 
             db.Entry(movie).State = EntityState.Modified;
+            db.Entry(movie).Property(m => m.MoviePoster).IsModified = false;
+            db.Entry(movie).Property(m => m.MoviePosterExtension).IsModified = false;
 
             try
             {
@@ -201,6 +212,63 @@ namespace MovieReviewPassionProject.Models
             }
 
             return StatusCode(HttpStatusCode.NoContent);
+        }
+
+        ///Objective:Create a method that allows us to upload movie poster to the selected movie page
+        /// <summary>
+        /// Upload movie poster that is associated with the selected movie and updates moviePoster option(false to true)
+        /// </summary>
+        /// <param name="id">the selected movie id</param>
+        /// <returns>HEADER: 200 (OK)</returns>
+        /// <example>api/moviedata/uploadposter/{id}</example>
+        [HttpPost]
+        public IHttpActionResult UploadPoster(int id)
+        {
+            bool hasPoster = false;
+            string posterExtension;
+            if (Request.Content.IsMimeMultipartContent())
+            {
+                int numfiles = HttpContext.Current.Request.Files.Count;
+                if (numfiles == 1 && HttpContext.Current.Request.Files[0] != null)
+                {
+                    var moviePoster = HttpContext.Current.Request.Files[0];
+                    if (moviePoster.ContentLength > 0)
+                    {
+                        var valtypes = new[] { "jpeg", "jpg", "png", "gif" };
+                        var extension = Path.GetExtension(moviePoster.FileName).Substring(1);
+                        if (valtypes.Contains(extension))
+                        {
+                            try
+                            {
+                                string fn = id + "." + extension;
+                                string path = Path.Combine(HttpContext.Current.Server.MapPath("~/Content/img/"), fn);
+                                moviePoster.SaveAs(path);
+                                hasPoster = true;
+                                posterExtension = extension;
+
+                                Movie selectMovie = db.Movies.Find(id);
+                                selectMovie.MoviePoster = hasPoster;
+                                selectMovie.MoviePosterExtension = extension;
+                                db.Entry(selectMovie).State = EntityState.Modified;
+
+                                db.SaveChanges();
+                            }
+
+                            catch (Exception ex)
+                            {
+                                Debug.WriteLine("Exception:" + ex);
+                                return BadRequest();
+                            }
+                        }
+                    }
+
+                }
+                return Ok();
+            }
+            else
+            {
+                return BadRequest();
+            }
         }
 
         ///Objective: Create a method that allow us to add a new movie by JSON form data of the movie model into the database 
@@ -250,6 +318,15 @@ namespace MovieReviewPassionProject.Models
             if (movie == null)
             {
                 return NotFound();
+            }
+
+            if(movie.MoviePoster && movie.MoviePosterExtension != "")
+            {
+                string path = HttpContext.Current.Server.MapPath("~/Content/img/" + id + "." + movie.MoviePosterExtension);
+                if (System.IO.File.Exists(path))
+                {
+                    System.IO.File.Delete(path);
+                }
             }
 
             db.Movies.Remove(movie);

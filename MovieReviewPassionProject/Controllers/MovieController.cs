@@ -1,6 +1,7 @@
 ﻿using MovieReviewPassionProject.Models;
 using MovieReviewPassionProject.Models.ViewModels;
 using System;
+using System.IO;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -26,6 +27,10 @@ namespace MovieReviewPassionProject.Controllers
             client.BaseAddress = new Uri("https://localhost:44336/api/");
          }
 
+        /// <summary>
+        /// create a method that can obtain authentication cookie(AspNet.ApplicationCookie) and be instantiated in other methods.
+        /// This can allow us to do changes to the database after we have logged in the server as an admin.
+        /// </summary>
         private void GetApplicationCookie()
         {
             string token = "";
@@ -193,18 +198,25 @@ namespace MovieReviewPassionProject.Controllers
         // POST: Movie/Edit/5
         [HttpPost]
         [Authorize]
-        public ActionResult Update(int id, Movie movie)
+        public ActionResult Update(int id, Movie movie, HttpPostedFileBase MoviePoster)
         {
             GetApplicationCookie();
-            //Accessing and updating the selected movie's information 
+            //Accessing and updating the selected movie's information  
             string url = "moviedata/updatemovie/" + id;
             string jsonpayload = jss.Serialize(movie);
             HttpContent content = new StringContent(jsonpayload);
             content.Headers.ContentType.MediaType = "application/json";
             HttpResponseMessage response = client.PostAsync(url, content).Result;
             Debug.WriteLine(content);
-            if (response.IsSuccessStatusCode)
+            if (response.IsSuccessStatusCode && MoviePoster != null)
             {
+                url = "MovieData/UploadPoster/" + id;
+                MultipartFormDataContent requestcontent = new MultipartFormDataContent();
+                HttpContent imagecontent = new StreamContent(MoviePoster.InputStream);
+                requestcontent.Add(imagecontent, "MoviePoster", MoviePoster.FileName);
+                response = client.PostAsync(url, requestcontent).Result;
+                return RedirectToAction("List");
+            }else if(response.IsSuccessStatusCode){
                 return RedirectToAction("List");
             }
             else

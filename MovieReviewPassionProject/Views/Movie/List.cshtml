@@ -9,11 +9,18 @@
         @foreach (var movie in Model)
         {
         <div class="flex-item">
-            <img src="~/Content/img/no-poster.jpg" alt="pending poster" />
-            <h2><a href="/Movie/Details/@movie.MovieID" style="color:red; font-weight:bold;">@movie.MovieName</a></h2>
+            @{
+                string imgurl = "/Content/img/no-poster.jpg";
+                if (movie.MoviePoster)
+                {
+                    imgurl = "/Content/img/" + movie.MovieID + "." + movie.MoviePosterExtension;
+                }
+            }
+            <a href="/Movie/Details/@movie.MovieID"><img src=@imgurl alt="movie picture" id="movie-pic" width="250" height="450" /></a>
+            <!--<h2><a href="/Movie/Details/@movie.MovieID" style="color:red; font-weight:bold;">@movie.MovieName</a></h2>
             <div> Genre : @movie.MovieGenre</div>
             <div>Year : @movie.Year.ToString("yyyy")</div>
-            <div>Info : @movie.MovieInfo</div>
+            <div>Info : @movie.MovieInfo</div>-->
         </div>
         }
     </div>

@@ -236,6 +236,22 @@
     <Compile Include="Migrations\202105301743046_movie.Designer.cs">
       <DependentUpon>202105301743046_movie.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202106201539291_MoviePoster.cs" />
+    <Compile Include="Migrations\202106201539291_MoviePoster.Designer.cs">
+      <DependentUpon>202106201539291_MoviePoster.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202106201540210_MoviePosterExtension.cs" />
+    <Compile Include="Migrations\202106201540210_MoviePosterExtension.Designer.cs">
+      <DependentUpon>202106201540210_MoviePosterExtension.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202106201541013_ActorPoster.cs" />
+    <Compile Include="Migrations\202106201541013_ActorPoster.Designer.cs">
+      <DependentUpon>202106201541013_ActorPoster.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202106201541280_ActorPosterExtension.cs" />
+    <Compile Include="Migrations\202106201541280_ActorPosterExtension.Designer.cs">
+      <DependentUpon>202106201541280_ActorPosterExtension.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Actor.cs" />
@@ -349,6 +365,18 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\202105301743046_movie.resx">
       <DependentUpon>202105301743046_movie.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202106201539291_MoviePoster.resx">
+      <DependentUpon>202106201539291_MoviePoster.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202106201540210_MoviePosterExtension.resx">
+      <DependentUpon>202106201540210_MoviePosterExtension.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202106201541013_ActorPoster.resx">
+      <DependentUpon>202106201541013_ActorPoster.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202106201541280_ActorPosterExtension.resx">
+      <DependentUpon>202106201541280_ActorPosterExtension.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

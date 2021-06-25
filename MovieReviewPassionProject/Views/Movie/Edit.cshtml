@@ -4,7 +4,7 @@
 }
 
 <h2>Update Movie Info</h2>
-<form action="/Movie/Update/@Model.SelectedMovie.MovieID" method="POST">
+<form action="/Movie/Update/@Model.SelectedMovie.MovieID" method="POST" enctype="multipart/form-data">
     <div>
         <label>Movie ID:</label><input type="text" name="MovieID" value="@Model.SelectedMovie.MovieID" />
     </div>
@@ -28,6 +28,9 @@
                 <option value="@review.ReviewID"> @review.AuthorName</option>
             }
         </select>
+    </div>
+    <div>
+        <input type="file" name="MoviePoster" />
     </div>
     <div>
         <input type="submit" value="Update movie" />

@@ -16,6 +16,8 @@ namespace MovieReviewPassionProject.Models
         public string Education { get; set; }
         public int RewardCount { get; set; }
         public string ActorImg { get; set; }
+        public bool ActorPoster { get; set; }
+        public string ActorPosterExtension { get; set; }
 
         //one movie can belong to many actors
         public ICollection<Movie> Movies { get; set; }
@@ -29,5 +31,7 @@ namespace MovieReviewPassionProject.Models
         public string Education { get; set; }
         public int RewardCount { get; set; }
         public string ActorImg { get; set; }
+        public bool ActorPoster { get; set; }
+        public string ActorPosterExtension { get; set; }
     }
 }

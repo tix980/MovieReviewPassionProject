@@ -3,9 +3,12 @@ using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
 using System.Data.Entity.Infrastructure;
+using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Web;
 using System.Web.Http;
 using System.Web.Http.Description;
 using MovieReviewPassionProject.Models;
@@ -35,7 +38,9 @@ namespace MovieReviewPassionProject.Controllers
                 ActorAge = a.ActorAge,
                 Education = a.Education,
                 RewardCount = a.RewardCount,
-                ActorImg = a.ActorImg
+                ActorImg = a.ActorImg,
+                ActorPoster = a.ActorPoster,
+                ActorPosterExtension = a.ActorPosterExtension
             }));
 
             return ActorDtos;
@@ -63,7 +68,9 @@ namespace MovieReviewPassionProject.Controllers
                 ActorAge = a.ActorAge,
                 Education = a.Education,
                 RewardCount = a.RewardCount,
-                ActorImg = a.ActorImg
+                ActorImg = a.ActorImg,
+                ActorPoster = a.ActorPoster,
+                ActorPosterExtension = a.ActorPosterExtension
             }));
 
             return ActorDtos;
@@ -88,6 +95,8 @@ namespace MovieReviewPassionProject.Controllers
             {
                 ActorId = a.ActorId,
                 ActorImg = a.ActorImg,
+                ActorPoster = a.ActorPoster,
+                ActorPosterExtension = a.ActorPosterExtension,
                 ActorName = a.ActorName,
                 ActorAge = a.ActorAge,
                 Education = a.Education,
@@ -113,6 +122,8 @@ namespace MovieReviewPassionProject.Controllers
             {
                 ActorId = Actor.ActorId,
                 ActorImg = Actor.ActorImg,
+                ActorPoster = Actor.ActorPoster,
+                ActorPosterExtension = Actor.ActorPosterExtension,
                 ActorName = Actor.ActorName,
                 ActorAge = Actor.ActorAge,
                 Education = Actor.Education,
@@ -157,6 +168,8 @@ namespace MovieReviewPassionProject.Controllers
             }
 
             db.Entry(actor).State = EntityState.Modified;
+            db.Entry(actor).Property(a => a.ActorPoster).IsModified = false;
+            db.Entry(actor).Property(a => a.ActorPosterExtension).IsModified = false;
 
             try
             {
@@ -176,6 +189,65 @@ namespace MovieReviewPassionProject.Controllers
 
             return StatusCode(HttpStatusCode.NoContent);
         }
+
+
+        ///Objective:Create a method that allows us to upload actor poster to the selected actor page
+        /// <summary>
+        /// Upload actor poster that is associated with the selected actor and updates actorPoster option(false to true)
+        /// </summary>
+        /// <param name="id">the selected actor id</param>
+        /// <returns>HEADER: 200 (OK)</returns>
+        /// <example>api/actordata/uploadposter/{id}</example>
+        [HttpPost]
+        public IHttpActionResult UploadPoster(int id)
+        {
+            bool hasPoster = false;
+            string postExtension;
+            if (Request.Content.IsMimeMultipartContent())
+            {
+                int numfiles = HttpContext.Current.Request.Files.Count;
+                if (numfiles == 1 && HttpContext.Current.Request.Files[0] != null)
+                {
+                    var actorPoster = HttpContext.Current.Request.Files[0];
+                    if(actorPoster.ContentLength > 0)
+                    {
+                        var valtypes = new[] { "jpeg", "jpg", "png", "gif" };
+                        var extension = Path.GetExtension(actorPoster.FileName).Substring(1);
+
+                        if (valtypes.Contains(extension))
+                        {
+                            try
+                            {
+                                string fn = id + "." + extension;
+                                string path = Path.Combine(HttpContext.Current.Server.MapPath("~/Content/img/"), fn);
+                                actorPoster.SaveAs(path);
+                                hasPoster = true;
+                                postExtension = extension;
+
+                                Actor selectedActor = db.Actors.Find(id);
+                                selectedActor.ActorPoster = hasPoster;
+                                selectedActor.ActorPosterExtension = extension;
+                                db.Entry(selectedActor).State = EntityState.Modified;
+
+                                db.SaveChanges();
+
+                            }
+                            catch(Exception ex)
+                            {
+                                Debug.WriteLine("Exception:" + ex);
+                                return BadRequest();
+                            }
+                        }
+                    }
+                }
+                return Ok();
+            }
+            else
+            {
+                return BadRequest();
+            }
+        }
+
 
         ///Objective: Create a method that allow us to add a new actor by JSON form data of the actor model into the database 
         /// <summary>

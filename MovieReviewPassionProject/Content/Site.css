@@ -39,13 +39,29 @@ h2, h3, a {
     font-weight: bold;
 }
 
+a:hover{
+    color:blue !important;
+}
+
 .detailInfo{
     margin-top:5em;
 }
 
+#movie-info-message{
+    line-height:1em;
+}
 
 h3 {
+    padding-bottom: 1em;
     border-top: 1px solid black;
+}
+
+.navbar-inverse .navbar-nav > li > a {
+    color: white;
+}
+
+.navbar-inverse .navbar-brand {
+    color: beige;
 }
 
 .navlink {
@@ -64,6 +80,7 @@ h3 {
     border: 1px red black;
     background-color: red;
     margin-top: 1em;
+    padding: 3px;
 }
 
 .flex-container{
@@ -85,14 +102,15 @@ h3 {
 }
 
 #actor-pic, #movie-pic {
-    margin-right: 11em;
-    margin-left: 12em;
+    margin-right: -1em;
     margin-top: 5em;
 }
 
 #movieInfo, #actorInfo {
-    margin-top: 5em;
-    line-height:4em;
+    margin-top: 10em;
+    margin-left: 7em;
+    line-height: 4em;
+    flex: 1;
 }
 
 #related-movies{

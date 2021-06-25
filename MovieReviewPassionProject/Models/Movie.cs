@@ -16,6 +16,10 @@ namespace MovieReviewPassionProject.Models
         public string MovieInfo {get;set;}
         public string MovieImg { get; set; }
 
+        //images are in content/img/movies/{id}.{extension}
+        public bool MoviePoster { get; set; }
+        public string MoviePosterExtension { get; set; }
+
         //one movie can have many reviews
         public ICollection<Review> Reviews { get; set; }
 
@@ -31,6 +35,8 @@ namespace MovieReviewPassionProject.Models
         public DateTime Year { get; set; }
         public string MovieInfo { get; set; }
         public string MovieImg { get; set; }
+        public bool MoviePoster { get; set; }
+        public string MoviePosterExtension { get; set; }
 
     }
 }

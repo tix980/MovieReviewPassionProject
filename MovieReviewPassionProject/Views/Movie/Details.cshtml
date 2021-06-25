@@ -7,28 +7,27 @@
 <a href="/Movie/DeleteConfirm/@Model.SelectedMovie.MovieID" class="dellink">Delete</a>
 <div class="detailInfo">
     <div class="flex-container">
-        <img src="~/Content/img/no-poster.jpg" alt="movie picture" id="movie-pic" />
+        @{ 
+            string imageurl = "/Content/img/no-poster.jpg";
+            if (Model.SelectedMovie.MoviePoster)
+            {
+                imageurl = "/Content/img/" + Model.SelectedMovie.MovieID + "." + Model.SelectedMovie.MoviePosterExtension;
+            }
+        }
+        <img src="@imageurl" alt="movie picture" id="movie-pic" width="250" height="450" />
         <div id="movieInfo">
             <h2>@Model.SelectedMovie.MovieName</h2>
             <div> Genre : @Model.SelectedMovie.MovieGenre</div>
             <div>Year : @Model.SelectedMovie.Year.ToString("yyyy")</div>
-            <div>Info : @Model.SelectedMovie.MovieInfo</div>
+            <div id="movie-info-message">Info : @Model.SelectedMovie.MovieInfo</div>
         </div>
     </div>
-</div>
-<div style="margin-top:50px;" class="additional-info">
-    <h3>Reviews related to the movie</h3>
-    @foreach (var review in Model.relatedReviews)
-    {
-        <a href="/review/details/@review.ReviewID">@review.AuthorName</a>
-        <div>@review.ReviewDetail</div>
-    }
 </div>
 <div style="margin-top:50px;" class="additional-info">
     <h3>Actors related to the movie</h3>
     @foreach (var actor in Model.relatedActors)
     {
-        <a href="/actor/details/@actor.ActorId">@actor.ActorName</a><a href="/Movie/NotAssociate/@Model.SelectedMovie.MovieID?ActorId=@actor.ActorId">[x]</a>
+        <a style="color:black;" href="/actor/details/@actor.ActorId">@actor.ActorName</a><a href="/Movie/NotAssociate/@Model.SelectedMovie.MovieID?ActorId=@actor.ActorId">[x]</a>
     }
 
     <div class="additional-info">
@@ -42,7 +41,13 @@
             </select>
             <input type="submit" value="add actor" />
         </form>
-
     </div>
-
+</div>
+<div style="margin-top:50px;" class="additional-info">
+    <h3>Reviews related to the movie</h3>
+    @foreach (var review in Model.relatedReviews)
+    {
+        <a href="/review/details/@review.ReviewID">@review.AuthorName</a>
+        <div>@review.ReviewDetail</div>
+    }
 </div>
