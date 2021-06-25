@@ -18,6 +18,9 @@
         <label>Info:</label><input name="MovieInfo" />
     </div>
     <div>
+        <label>Image Format:</label><input name="MoviePosterExtension" />
+    </div>
+    <!--<div>
         <label>Review author:</label>
         <select name="ReviewID">
             @foreach (var review in Model)
@@ -25,7 +28,7 @@
             <option value="@review.ReviewID"> @review.AuthorName</option>
                 }
         </select>
-    </div>
+    </div>-->
     <div>
         <input type="submit" value="add movie" />
     </div>

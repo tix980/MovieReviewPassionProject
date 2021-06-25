@@ -22,7 +22,7 @@ namespace MovieReviewPassionProject.Models
         //one movie can have many reviews
         public ICollection<Review> Reviews { get; set; }
 
-        //one movies can have many actors
+        //one movie can have many actors
         public ICollection<Actor> Actors { get; set; }
     }
     
