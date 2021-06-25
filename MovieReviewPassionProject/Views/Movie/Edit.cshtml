@@ -18,7 +18,10 @@
         <label>Year:</label><input type="text" name="Year" value="@Model.SelectedMovie.Year" />
     </div>
     <div>
-        <label>Info:</label><input type="text" name="MovieInfo" value="@Model.SelectedMovie.MovieInfo" />
+        <label>Info:</label>
+        <div>
+            <textarea name="MovieInfo" rows="8" cols="50">@Model.SelectedMovie.MovieInfo</textarea>
+        </div>
     </div>
     <div>
         <label>Reviews:</label>

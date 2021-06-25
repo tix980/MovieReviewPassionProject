@@ -15,10 +15,13 @@
         <label>Ratings:</label><input type="text" name="StarRatings" value="@Model.SelectedReview.StarRatings" />
     </div>
     <div>
-        <label>Comment:</label><input type="text" name="ReviewDetail" value="@Model.SelectedReview.ReviewDetail" />
+        <label>Date:</label><input type="text" name="ReviewDate" value="@Model.SelectedReview.ReviewDate" />
     </div>
     <div>
-        <label>Date:</label><input type="text" name="ReviewDate" value="@Model.SelectedReview.ReviewDate" />
+        <label>Comment:</label>
+        <div>
+            <textarea name="ReviewDetail" rows="8" cols="50">@Model.SelectedReview.ReviewDetail</textarea>
+        </div>
     </div>
     <div>
         <label>Movies:</label>
