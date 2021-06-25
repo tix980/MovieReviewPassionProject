@@ -31,9 +31,6 @@ textarea {
     color: #BA1200;
 }
 
-#homepage-cover {
-}
-
 h2, h3, a {
     color: red;
     font-weight: bold;
@@ -120,4 +117,18 @@ h3 {
 
 .additional-info h3 , #related-movies h3 {
     padding-top: 1em;
+}
+
+@media screen and (max-width:360px){
+
+    #homepage-heading {
+        margin-top: 1.2em;
+        color: #BA1200;
+    }
+
+    #homepage-cover {
+        width: 305px;
+        height: 205px;
+    }
+
 }
